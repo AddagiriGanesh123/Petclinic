@@ -48,7 +48,19 @@ pipeline {
     }
 
     post {
-        success { echo '✅ Pipeline Success!' }
-        failure { echo '❌ Pipeline Failed!' }
+        success {
+            emailext(
+                to: 'your_gmail@gmail.com',
+                subject: "SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build Successful! URL: ${env.BUILD_URL}"
+            )
+        }
+        failure {
+            emailext(
+                to: 'ganeshaddagiri1@gmail.com',
+                subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: "Build Failed! URL: ${env.BUILD_URL}"
+            )
+        }
     }
 }
